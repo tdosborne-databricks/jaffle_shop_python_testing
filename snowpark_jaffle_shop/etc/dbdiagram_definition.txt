@@ -20,4 +20,4 @@ Table customers {
 
 Ref: orders.user_id > customers.id
 
-Ref: payments.order_id > orders.id
+Ref: payments["order_id"] > orders.id
