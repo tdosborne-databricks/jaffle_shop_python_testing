@@ -21,7 +21,7 @@ def model(dbt, session):
     # perform PCA
     orders_pca = pca_transform(orders)
 
-    # return the restult as the dbt model for this file
+    # return the result as the dbt model for this file
     return orders_pca
 
 
