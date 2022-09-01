@@ -15,14 +15,8 @@ def model(dbt, session):
         key.upper(): value.upper() for key, value in orders_renames.items()
     }
 
-    stg_orders = dbt.ref("stg_orders_pandas")
-    stg_orders = stg_orders.to_pandas()
-
-    stg_payments = dbt.ref("stg_payments_pandas")
-    stg_payments = stg_payments.to_pandas()
-
-    stg_customers = dbt.ref("stg_customers_pandas")
-    stg_customers = stg_customers.to_pandas()
+    stg_orders = dbt.ref("stg_orders_pandas").to_pandas()
+    stg_payments = dbt.ref("stg_payments_pandas").to_pandas()
 
     order_payments_totals = stg_payments.groupby("ORDER_ID").agg(
         AMOUNT=("AMOUNT", "sum")

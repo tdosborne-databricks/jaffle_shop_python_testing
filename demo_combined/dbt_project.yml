@@ -22,13 +22,15 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 models:
   jaffle_shop:
       materialized: table
+      +docs:
+        node_color: "gold"
       sql:
         +docs:
-            node_color: blue
+            node_color: "blue"
       pandas:
         +docs:
-            node_color: red
+            node_color: "red"
       snowpark:
         +docs:
-            node_color: purple
-        
+            node_color: "purple"
+      

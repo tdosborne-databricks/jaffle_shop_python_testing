@@ -3,13 +3,11 @@ from snowflake.snowpark.functions import col
 
 def model(dbt, session):
 
-    payments_renames = {"id": "payment_id"}
-    payments_renames = {
-        key.upper(): value.upper() for key, value in payments_renames.items()
-    }
-
     stg_payments = dbt.ref("raw_payments")
 
+    payments_renames = {"ID": "PAYMENT_ID"}
+
+    # goofy
     stg_payments = stg_payments.select(
         *[
             col(col_name).as_(payments_renames[col_name])
