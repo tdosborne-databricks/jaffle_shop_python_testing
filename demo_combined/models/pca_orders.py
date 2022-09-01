@@ -24,10 +24,12 @@ def model(dbt, session):
     # return the restult as the dbt model for this file
     return orders_pca
 
+
 # helper functions
 def prep_data(df):
 
     return df.drop("ORDER_DATE", axis=1).drop("STATUS", axis=1)
+
 
 def pca_transform(df):
 
