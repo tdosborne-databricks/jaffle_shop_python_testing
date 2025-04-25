@@ -25,17 +25,17 @@ def model(dbt, session):
     stg_customers = stg_customers.to_pandas_on_spark()
 
     order_payments_totals = stg_payments.groupby("order_id").agg(
-        AMOUNT=("AMOUNT", "sum")
+        amount=("amount", "sum")
     )
 
     order_payments = (
         stg_payments.groupby(["order_id", "payment_method"])
-        .agg(payment_method_amount=("AMOUNT", "sum"))
+        .agg(payment_method_amount=("amount", "sum"))
         .reset_index()
         .pivot(
             index="order_id",
             columns="payment_method",
-            values="payment_method_AMOUNT".lower(),
+            values="payment_method_amount".lower(),
         )
         .rename(columns=order_payments_renames)
         .merge(order_payments_totals, on="order_id", how="left")

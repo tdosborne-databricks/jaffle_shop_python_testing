@@ -1,7 +1,7 @@
 def model(dbt, session):
     payments_renames = {"id": "payment_id"}
     payments_renames = {
-        key.upper(): value.upper() for key, value in payments_renames.items()
+        key.lower(): value.lower() for key, value in payments_renames.items()
     }
 
     raw_payments = dbt.ref("raw_payments")
