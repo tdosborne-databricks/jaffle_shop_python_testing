@@ -7,12 +7,12 @@ def model(dbt, session):
         for payment_method in payment_methods
     }
     order_payments_renames = {
-        key: value.upper() for key, value in order_payments_renames.items()
+        key: value.lower() for key, value in order_payments_renames.items()
     }
 
     orders_renames = {"total_amount": "amount"}
     orders_renames = {
-        key.upper(): value.upper() for key, value in orders_renames.items()
+        key.lower(): value.lower() for key, value in orders_renames.items()
     }
 
     stg_orders = dbt.ref("stg_orders")

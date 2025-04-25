@@ -2,7 +2,7 @@ def model(dbt, session):
 
     customers_renames = {"id": "customer_id"}
     customers_renames = {
-        key.upper(): value.upper() for key, value in customers_renames.items()
+        key.lower(): value.lower() for key, value in customers_renames.items()
     }
 
     stg_customers = dbt.ref("raw_customers")

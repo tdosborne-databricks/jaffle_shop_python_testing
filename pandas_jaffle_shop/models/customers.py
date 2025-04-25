@@ -2,7 +2,7 @@ def model(dbt, session):
 
     customers_renames = {"total_amount": "customer_lifetime_value"}
     customers_renames = {
-        key.upper(): value.upper() for key, value in customers_renames.items()
+        key.lower(): value.lower() for key, value in customers_renames.items()
     }
 
     stg_orders = dbt.ref("stg_orders")
@@ -15,25 +15,25 @@ def model(dbt, session):
     stg_customers = stg_customers.to_pandas_on_spark()
 
     customer_orders = (
-        stg_orders.groupby("customer_id".upper())
+        stg_orders.groupby("customer_id".lower())
         .agg(
-            first_order=("order_date".upper(), "min"),
-            most_recent_order=("order_date".upper(), "max"),
-            number_of_orders=("order_id".upper(), "count"),
+            first_order=("order_date".lower(), "min"),
+            most_recent_order=("order_date".lower(), "max"),
+            number_of_orders=("order_id".lower(), "count"),
         )
         .reset_index()
     )
 
     customer_payments = (
-        stg_payments.merge(stg_orders, on="order_id".upper(), how="left")
-        .groupby("customer_id".upper())
-        .agg(total_amount=("amount".upper(), "sum"))
+        stg_payments.merge(stg_orders, on="order_id".lower(), how="left")
+        .groupby("customer_id".lower())
+        .agg(total_amount=("amount".lower(), "sum"))
         .reset_index()
     )
 
     customers = (
-        stg_customers.merge(customer_orders, on="customer_id".upper(), how="left")
-        .merge(customer_payments, on="customer_id".upper(), how="left")
+        stg_customers.merge(customer_orders, on="customer_id".lower(), how="left")
+        .merge(customer_payments, on="customer_id".lower(), how="left")
         .rename(columns=customers_renames)
     )
 
