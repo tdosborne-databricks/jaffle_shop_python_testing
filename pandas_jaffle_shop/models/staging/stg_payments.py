@@ -11,6 +11,6 @@ def model(dbt, session):
 
     payments = raw_payments.rename(columns=payments_renames)
     # -- `amount` is currently stored in cents, so we convert it to dollars
-    payments["AMOUNT"] /= 100
+    payments["amount"] /= 100
 
     return payments
