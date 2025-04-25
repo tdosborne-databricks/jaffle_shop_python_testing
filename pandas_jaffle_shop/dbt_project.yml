@@ -23,4 +23,5 @@ models:
   jaffle_shop:
       materialized: table
       staging:
+        +submission_method: serverless_cluster
         materialized: table # views not supported (?)
