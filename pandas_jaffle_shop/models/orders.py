@@ -24,25 +24,25 @@ def model(dbt, session):
     stg_customers = dbt.ref("stg_customers")
     stg_customers = stg_customers.to_pandas_on_spark()
 
-    order_payments_totals = stg_payments.groupby("ORDER_ID").agg(
+    order_payments_totals = stg_payments.groupby("order_id").agg(
         AMOUNT=("AMOUNT", "sum")
     )
 
     order_payments = (
-        stg_payments.groupby(["ORDER_ID", "PAYMENT_METHOD"])
+        stg_payments.groupby(["order_id", "payment_method"])
         .agg(payment_method_amount=("AMOUNT", "sum"))
         .reset_index()
         .pivot(
-            index="ORDER_ID",
-            columns="PAYMENT_METHOD",
-            values="PAYMENT_METHOD_AMOUNT".lower(),
+            index="order_id",
+            columns="payment_method",
+            values="payment_method_AMOUNT".lower(),
         )
         .rename(columns=order_payments_renames)
-        .merge(order_payments_totals, on="ORDER_ID", how="left")
+        .merge(order_payments_totals, on="order_id", how="left")
         .reset_index()
     )
 
-    orders = stg_orders.merge(order_payments, on="ORDER_ID", how="left").rename(
+    orders = stg_orders.merge(order_payments, on="order_id", how="left").rename(
         columns=orders_renames
     )
     orders = orders.fillna(0)  # hacked the mainframe (fixes tests)
