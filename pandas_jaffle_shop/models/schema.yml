@@ -5,8 +5,7 @@ models:
     config:
       submission_method: serverless_cluster
       description: \'customers\' model task that is part of the \'jaffle_shop_py_test\' run
-      python_job_config:
-        run_name: jaffle_shop_py_test
+      
     description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
 
     columns:
@@ -38,8 +37,7 @@ models:
     config:
       submission_method: serverless_cluster
       description: \'orders\' model task that is part of the \'jaffle_shop_py_test\' run
-      python_job_config:
-        run_name: jaffle_shop_py_test
+      
     description: This table has basic information about orders, as well as some derived facts based on payments
 
     columns:
