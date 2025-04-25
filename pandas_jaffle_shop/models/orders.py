@@ -16,13 +16,13 @@ def model(dbt, session):
     }
 
     stg_orders = dbt.ref("stg_orders")
-    stg_orders = stg_orders.to_pandas()
+    stg_orders = stg_orders.to_pandas_on_spark()
 
     stg_payments = dbt.ref("stg_payments")
-    stg_payments = stg_payments.to_pandas()
+    stg_payments = stg_payments.to_pandas_on_spark()
 
     stg_customers = dbt.ref("stg_customers")
-    stg_customers = stg_customers.to_pandas()
+    stg_customers = stg_customers.to_pandas_on_spark()
 
     order_payments_totals = stg_payments.groupby("ORDER_ID").agg(
         AMOUNT=("AMOUNT", "sum")
