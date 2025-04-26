@@ -6,7 +6,7 @@ def model(dbt, session):
 
     raw_payments = dbt.ref("raw_payments")
     raw_payments = (
-        raw_payments.to_pandas_on_spark()
+        raw_payments.pandas_api()
     )  # see https://github.com/dbt-labs/dbt-core/issues/5646
 
     payments = raw_payments.rename(columns=payments_renames)
