@@ -27,9 +27,9 @@ def model(dbt, session):
     stg_payments = stg_payments.pandas_api()
 
     columns = stg_payments.columns
-    logger.info("Columns in the stg_payments DataFrame:")
+    logging.info("Columns in the stg_payments DataFrame:")
     for col in columns:
-        logger.info(col)
+        logging.info(col)
 
     stg_customers = dbt.ref("stg_customers")
     stg_customers = stg_customers.pandas_api()
