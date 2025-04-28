@@ -26,13 +26,13 @@ def model(dbt, session):
 
     stg_payments = dbt.ref("stg_payments")
     stg_payments = stg_payments.pandas_api()
+    stg_payments.columns = [col.strip().lower() for col in stg_payments.columns]
 
     columns = stg_payments.columns
     logger.info("Columns in the stg_payments DataFrame:")
-    print("Columns in the stg_payments DataFrame:")
+
     for col in columns:
         logger.info(col)
-        print(col)
 
     stg_customers = dbt.ref("stg_customers")
     stg_customers = stg_customers.pandas_api()
@@ -40,6 +40,11 @@ def model(dbt, session):
     order_payments_totals = stg_payments.groupby("order_id").agg(
         amount=("amount", "sum")
     )
+
+    test_order_payments = stg_payments.groupby(["order_id", "payment_method"]).agg(payment_method_amount=("amount", "sum"))
+        .reset_index()
+    
+    logger.info(test_order_payments.head())
 
     order_payments = (
         stg_payments.groupby(["order_id", "payment_method"])
