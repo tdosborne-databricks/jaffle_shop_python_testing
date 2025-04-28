@@ -3,7 +3,8 @@ def model(dbt, session):
     logging.basicConfig(stream=sys.stderr,
                         level=logging.INFO,
                         format='%(asctime)s [%(name)s][%(levelname)s] %(message)s')
-    logging.getLogger('databricks.sdk').setLevel(logging.DEBUG)
+    logger = logging.getLogger('databricks.sdk')
+    logger.setLevel(logging.DEBUG)
 
     payment_methods = ["credit_card", "coupon", "bank_transfer", "gift_card"]
 
@@ -27,9 +28,11 @@ def model(dbt, session):
     stg_payments = stg_payments.pandas_api()
 
     columns = stg_payments.columns
-    logging.info("Columns in the stg_payments DataFrame:")
+    logger.info("Columns in the stg_payments DataFrame:")
+    print("Columns in the stg_payments DataFrame:")
     for col in columns:
-        logging.info(col)
+        logger.info(col)
+        print(col)
 
     stg_customers = dbt.ref("stg_customers")
     stg_customers = stg_customers.pandas_api()
