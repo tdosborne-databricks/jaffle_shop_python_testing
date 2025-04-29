@@ -39,23 +39,8 @@ def model(dbt, session):
 
     order_payments_totals = stg_payments.groupby("order_id").agg(
         amount=("amount", "sum")
-    )
-
-    logger.info(order_payments_totals.head())
-
-    test_order_payments = (
-        stg_payments.groupby(["order_id", "payment_method"])
-        .agg(payment_method_amount=("amount", "sum"))
         .reset_index()
-        .pivot(
-            index="order_id",
-            columns="payment_method",
-            values="payment_method_amount".lower(),
-        )
-        .rename(columns=order_payments_renames)
     )
-    
-    logger.info(test_order_payments.head())
 
     order_payments = (
         stg_payments.groupby(["order_id", "payment_method"])
@@ -66,6 +51,7 @@ def model(dbt, session):
             columns="payment_method",
             values="payment_method_amount".lower(),
         )
+        .reset_index()
         .rename(columns=order_payments_renames)
         .merge(order_payments_totals, on="order_id", how="left")
         .reset_index()
