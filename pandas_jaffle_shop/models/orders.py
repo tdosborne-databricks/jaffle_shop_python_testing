@@ -37,10 +37,7 @@ def model(dbt, session):
     stg_customers = dbt.ref("stg_customers")
     stg_customers = stg_customers.pandas_api()
 
-    order_payments_totals = stg_payments.groupby("order_id").agg(
-        amount=("amount", "sum")
-        .reset_index()
-    )
+    order_payments_totals = stg_payments.groupby("order_id").agg(amount=("amount", "sum")).reset_index()
 
     order_payments = (
         stg_payments.groupby(["order_id", "payment_method"])
