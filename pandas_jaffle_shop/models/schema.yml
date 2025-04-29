@@ -10,7 +10,7 @@ models:
         node_type_id: "m5d.large"
         num_workers: 2
         spark_conf:
-          spark.databricks.acl.needAdminPermissionToViewLogs false
+          spark.databricks.acl.needAdminPermissionToViewLogs: false
       python_job_config:
         grants:
           view: [{ "user_name": "trevor.osborne+test_nonadmin@databricks.com" }]
