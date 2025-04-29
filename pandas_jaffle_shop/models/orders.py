@@ -41,8 +41,7 @@ def model(dbt, session):
         amount=("amount", "sum")
     )
 
-    test_order_payments = stg_payments.groupby(["order_id", "payment_method"]).agg(payment_method_amount=("amount", "sum"))
-        .reset_index()
+    test_order_payments = stg_payments.groupby(["order_id", "payment_method"]).agg(payment_method_amount=("amount", "sum")).reset_index()
     
     logger.info(test_order_payments.head())
 
