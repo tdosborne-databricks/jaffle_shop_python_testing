@@ -57,6 +57,5 @@ def model(dbt, session):
     orders = stg_orders.merge(order_payments, on="order_id", how="left").rename(
         columns=orders_renames
     )
-    orders = orders.fillna(0)  # hacked the mainframe (fixes tests)
 
     return orders
